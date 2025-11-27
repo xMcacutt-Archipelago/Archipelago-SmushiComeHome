@@ -362,7 +362,8 @@ def get_standard_rules(world):
 def set_rules(world):
     from . import SmushiWorld
     world: SmushiWorld
-    rules_lookup = get_standard_rules(world) if world.options.logic_difficulty.value == 0 else get_advanced_rules(world)
+    rules_lookup = get_standard_rules(world)
+        # if world.options.logic_difficulty.value == 0 else get_advanced_rules(world)
 
     world.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Yellow Shrine Completed")
     world.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Blue Shrine Completed")
