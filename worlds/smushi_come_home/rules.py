@@ -206,7 +206,7 @@ def get_standard_rules(world):
                               and has_climb_level(world, state, 2),
 
             "Screwdriver Purchase":
-                lambda state: can_mine(world, state) and has_climb_level(1),
+                lambda state: can_mine(world, state) and has_climb_level(world, state, 1),
 
             "Ring of Truth Found":
                 lambda state: can_fly(world, state) and can_hm01(world, state) and has_climb_level(world, state, 1) and can_fly(world, state),
