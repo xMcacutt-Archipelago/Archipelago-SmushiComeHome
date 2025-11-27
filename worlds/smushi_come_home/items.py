@@ -49,7 +49,6 @@ def create_items(world: SmushiWorld):
     create_single("Container of Light", world)
     create_single("Headlamp", world)
     create_single("Essence of Water", world)
-    create_single("Sacred Orb", world)
     create_single("Secret Opener", world)
     create_single("Old String", world)
     create_single("Screwdriver", world)
@@ -64,6 +63,23 @@ def create_items(world: SmushiWorld):
     create_single("Super Spore", world)
     create_single("Super Essence", world)
     create_multiple("Lotus Flower", 5, world)
+
+    create_single("Amethyst Shroomie", world)
+    create_single("Strawberry Shroomie", world)
+    create_single("Flower Shroomie", world)
+    create_single("SHO Bowl Shroomie", world)
+    create_single("Verdant Shroomie", world)
+    create_single("Pelagic Shroomie", world)
+    create_single("Honey Shroomie", world)
+    create_single("Sparkle Shroomie", world)
+    create_single("Clavaria Shroomie", world)
+    create_single("Inkcap Shroomie", world)
+    create_single("Sharp Shroomie", world)
+    create_single("Precious Shroomie", world)
+    create_single("Rainbow Shroomie", world)
+    create_single("Veiled Shroomie", world)
+    create_single("Sacred Shroomie", world)
+    create_single("Mustache", world)
 
     # Junk
     remaining_locations: int = total_location_count - len(world.itempool)
@@ -102,46 +118,43 @@ smushi_item_table: Dict[str, ItemData] = {
     "Container of Light":     ItemData(0xF, ItemClassification.progression),
     "Headlamp":               ItemData(0x10, ItemClassification.progression),
     "Essence of Water":       ItemData(0x11, ItemClassification.progression),
-    "Sacred Orb":             ItemData(0x12, ItemClassification.progression),
     "Secret Opener":          ItemData(0x13, ItemClassification.progression),
     "Old String":             ItemData(0x14, ItemClassification.progression),
     "Screwdriver":            ItemData(0x15, ItemClassification.progression),
     "Band Aid":               ItemData(0x16, ItemClassification.progression),
-    "Ring of Love":           ItemData(0x17, ItemClassification.progression),
-    "Ring of Youth":          ItemData(0x18, ItemClassification.progression),
-    "Ring of Truth":          ItemData(0x19, ItemClassification.progression),
-    "Ring of Prosperity":     ItemData(0x1A, ItemClassification.progression),
-    "Ring of Spirit":         ItemData(0x1B, ItemClassification.progression),
+    "Ring of Love":           ItemData(0x17, ItemClassification.progression), # Diamond
+    "Ring of Youth":          ItemData(0x18, ItemClassification.progression), # Emerald
+    "Ring of Truth":          ItemData(0x19, ItemClassification.progression), # Sapphire
+    "Ring of Prosperity":     ItemData(0x1A, ItemClassification.progression), # Citrine
+    "Ring of Spirit":         ItemData(0x1B, ItemClassification.progression), # Amethyst
     "Conch Shell":            ItemData(0x1C, ItemClassification.progression),
     "Sacred Streamer":        ItemData(0x1D, ItemClassification.progression),
     "Super Spore":            ItemData(0x1E, ItemClassification.useful),
     "Super Essence":          ItemData(0x1F, ItemClassification.useful),
     "Lotus Flower":           ItemData(0x20, ItemClassification.progression),
-
-    "Classic Shroomie":       ItemData(0x100, ItemClassification.filler),
-    "Amethyst Shroomie":      ItemData(0x100, ItemClassification.filler),
-    "Strawberry Shroomie":    ItemData(0x100, ItemClassification.filler),
-    "Flower Shroomie":        ItemData(0x100, ItemClassification.filler),
-    "SHO Bowl":               ItemData(0x100, ItemClassification.filler),
-    "Verdant Shroomie":       ItemData(0x100, ItemClassification.filler),
-    "Pelagic Shroomie":       ItemData(0x100, ItemClassification.filler),
-    "Honey Shroomie":         ItemData(0x100, ItemClassification.filler),
-    "Sparkle Shroomie":       ItemData(0x100, ItemClassification.filler),
-    "Clavaria Shroomie":      ItemData(0x100, ItemClassification.filler),
-    "Inkcap Shroomie":        ItemData(0x100, ItemClassification.filler),
+    "Amethyst Shroomie":      ItemData(0x101, ItemClassification.filler),
+    "Strawberry Shroomie":    ItemData(0x102, ItemClassification.filler),
+    "Flower Shroomie":        ItemData(0x103, ItemClassification.filler),
+    "SHO Bowl Shroomie":      ItemData(0x104, ItemClassification.filler),
+    "Verdant Shroomie":       ItemData(0x105, ItemClassification.filler),
+    "Pelagic Shroomie":       ItemData(0x106, ItemClassification.filler),
+    "Honey Shroomie":         ItemData(0x107, ItemClassification.filler),
+    "Sparkle Shroomie":       ItemData(0x108, ItemClassification.filler),
+    "Clavaria Shroomie":      ItemData(0x109, ItemClassification.filler),
+    "Inkcap Shroomie":        ItemData(0x10A, ItemClassification.filler),
     "Sharp Shroomie":         ItemData(0x10B, ItemClassification.filler),
     "Precious Shroomie":      ItemData(0x10C, ItemClassification.filler),
     "Rainbow Shroomie":       ItemData(0x10D, ItemClassification.filler),
     "Veiled Shroomie":        ItemData(0x10E, ItemClassification.filler),
     "Sacred Shroomie":        ItemData(0x10F, ItemClassification.filler),
-
-    "Purple Crystal":         ItemData(0x200, ItemClassification.filler)
+    "Purple Crystal":         ItemData(0x200, ItemClassification.filler),
+    "Mustache":               ItemData(0x201, ItemClassification.filler)
 }
 
 
 
 junk_weights = {
-    "Purple Crystal": 1
+    "Purple Crystal": 1,
 }
 
 

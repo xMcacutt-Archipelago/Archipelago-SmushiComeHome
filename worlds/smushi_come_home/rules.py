@@ -54,13 +54,10 @@ def is_member(world, state: CollectionState):
     return state.has("Secret Password", world.player)
 
 def can_boom(world, state: CollectionState):
-    return state.has("Explosive Powder", world.player, 2)
+    return state.has("Explosive Powder", world.player, 2) and can_burn(world, state)
 
 def can_has_lamp(world, state: CollectionState):
     return state.has("Container of Light", world.player)
-
-def can_ponder(world, state: CollectionState):
-    return state.has("Sacred Orb", world.player)
 
 def has_a_secret(world, state: CollectionState):
     return state.has("Secret Opener", world.player)
@@ -84,75 +81,8 @@ def is_uncle_iroh(world, state: CollectionState):
 def get_advanced_rules(world):
     rules = {
         "locations": {
-            "Tool of Mining Found":
-                lambda state: can_mine(world, state),
-
-            "Blue Shrine Energy Spore":
-                lambda state: state.can_reach_location("Blue Shrine Completed", world.player),
-
-            "Anemone Woods Wind Essence":
-                lambda state: can_fly(world, state),
-
-            "Blade of Power Purchase":
-                lambda state: can_mine(world, state),
-
-            "Pink Shrine Energy Spore":
-                lambda state: state.can_reach_location("Pink Shrine Completed", world.player),
-
-            "Myrtle Pools Wind Essence":
-                lambda state: can_fly(world, state),
-
-            "Ancient Relic 1":
-                lambda state: has_tools(world, state),
-
-            "Ancient Relic 2":
-                lambda state: has_tools(world, state),
-
-            "Purple Augmenter":
-                lambda state: state.can_reach_location("Orange Shrine Completed", world.player),
-
-            "Myrtle Pools Blueberry":
-                lambda state: can_mine(world, state),
-
-            "Flower Augmenter":
-                lambda state: state.has("Flower Shrine Completed", world.player, 4),
-
-            "Secret Augmenter":
-                lambda state: has_a_secret(world, state),
-
-            "Mycology Journal":
-                lambda state: is_literate(world, state),
-
-            "Mycena Haemapotus":
-                lambda state: is_shroom_nerd(world, state),
-
-            "Hypholoma Capnoides":
-                lambda state: is_shroom_nerd(world, state),
-
-            "Chalciporus Piperatus":
-                lambda state: is_shroom_nerd(world, state),
-
-            "Volvopluteus Gloiocephalus":
-                lambda state: is_shroom_nerd(world, state),
-
-            "Macrolepiota Procera":
-                lambda state: is_shroom_nerd(world, state) and has_basics(world, state), #not sure if leaf or hook or both
-
-            "Entoloma Hochstetteri":
-                lambda state: is_shroom_nerd(world, state),
-
-            "Crystal Cave Blueberry":
-                lambda state: has_basics(world, state),
-
-            "Sturdy Hooks Purchase":
-                lambda state: can_mine(world, state),
-
-            "Restless Stream Energy Spore":
-                lambda state: can_hm01(world, state) and has_climb_level(world, state, 1),
-
         },
         "entrances": {
-
         }
     }
     return rules
@@ -160,8 +90,11 @@ def get_advanced_rules(world):
 def get_standard_rules(world):
     rules = {
         "locations": {
-            "Tool of Mining Found":
+            "Tools of the Explorer Found":
                 lambda state: can_mine(world, state),
+
+            "Tool of Mining Found":
+                lambda state: has_tools(world, state),
 
             "Purple Augmenter":
                 lambda state: state.can_reach_location("Orange Shrine Completed", world.player),
@@ -199,10 +132,10 @@ def get_standard_rules(world):
             "Ancient Relic 2 Found":
                 lambda state: has_tools(world, state),
 
-            "Myrtle Pools Blueberry":
+            "Myrtle Pools Blueberry Purchase":
                 lambda state: can_mine(world, state),
 
-            "Crystal Cave Blueberry":
+            "Crystal Cave Blueberry Found":
                 lambda state: has_basics(world, state),
 
             "Sturdy Hooks Purchase":
@@ -214,7 +147,7 @@ def get_standard_rules(world):
             "Super Essence Found":
                 lambda state: can_fly(world, state),
 
-            "Firestarter Kit Found":
+            "Firestarter Kit Purchase":
                 lambda state: can_mine(world, state),
 
             "Maple Sanctuary Energy Spore":
@@ -262,9 +195,6 @@ def get_standard_rules(world):
             "Chungy Saved":
                 lambda state: can_burn(world, state) and can_save_chungus(world, state),
 
-            "Sacred Orb Found":
-                lambda state: can_burn(world, state) and can_hm01(world, state),
-
             "Indigo Island Energy Spore":
                 lambda state: can_mine(world, state),
 
@@ -275,8 +205,11 @@ def get_standard_rules(world):
                 lambda state: can_fly(world, state) and can_burn(world, state)
                               and has_climb_level(world, state, 2),
 
+            "Screwdriver Purchase":
+                lambda state: can_mine(world, state) and has_climb_level(1),
+
             "Ring of Truth Found":
-                lambda state: can_fly(world, state) and can_hm01(world, state) and has_climb_level(world, state, 2),
+                lambda state: can_fly(world, state) and can_hm01(world, state) and has_climb_level(world, state, 1) and can_fly(world, state),
 
             "Ring of Love Found":
                 lambda state: can_fly(world, state) and has_climb_level(world, state, 2)
@@ -305,6 +238,9 @@ def get_standard_rules(world):
                               and can_fly(world, state) and can_burn(world, state) and can_go_water(world, state)
                               and has_climb_level(world, state, 2),
 
+            "Sparkle Augmenter":
+                lambda state: has_climb_level(world, state, 2) and can_fly(world, state) and state.has("Energy Spore", world.player, 2),
+
             "Mycena Haematopus":
                 lambda state: is_shroom_nerd(world, state),
 
@@ -315,7 +251,7 @@ def get_standard_rules(world):
                 lambda state: is_shroom_nerd(world, state),
 
             "Macrolepiota Procera":
-                lambda state: is_shroom_nerd(world, state),
+                lambda state: is_shroom_nerd(world, state) and can_fly(world, state),
 
             "Entoloma Hochstetteri":
                 lambda state: is_shroom_nerd(world, state),
@@ -329,7 +265,7 @@ def get_standard_rules(world):
             "Cantharellus Cibarius":
                 lambda state: is_shroom_nerd(world, state),
 
-            "Hygrocybe flavescens":
+            "Hygrocybe Flavescens":
                 lambda state: is_shroom_nerd(world, state),
 
             "Daedaleopsis Tricolor":
@@ -374,6 +310,10 @@ def get_standard_rules(world):
             "Rainbow Augmenter":
                 lambda state: can_fly(world, state) and has_climb_level(world, state, 2),
 
+            "Sharp Augmenter":
+                lambda state: can_fly(world, state) and has_climb_level(world, state, 2)
+                              and can_burn(world, state) and can_screw_glass(world, state),
+
             "Precious Augmenter":
                 lambda state: state.has("Ring Returned", world.player, 5),
 
@@ -400,7 +340,7 @@ def get_standard_rules(world):
             f"{LAKE} -> {ELDERS_HOME}":
                 lambda state: is_uncle_iroh(world, state),
             f"{HIDDEN_LOTUS} -> {CHUNGY_CAVE}":
-                lambda state: can_go_water(world, state) and can_fly(world, state)
+                lambda state: can_go_water(world, state) and can_fly(world, state) and is_pitch_black_baby(world, state)
                               and has_climb_level(world, state, 2),
             f"{LAKE} -> {SACRED_HOLM}":
                 lambda state: has_climb_level(world, state, 2) and can_fly(world, state) and can_mine(world, state),
@@ -427,7 +367,7 @@ def set_rules(world):
     world.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Yellow Shrine Completed")
     world.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Blue Shrine Completed")
     world.get_location("Blue Shrine Completed").access_rule = \
-        lambda state: has_climb_level(world, state, 1)
+        lambda state: has_climb_level(world, state, 1) or can_fly(world, state)
     world.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Pink Shrine Completed")
     world.get_location("Pink Shrine Completed").access_rule = \
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state)
@@ -435,11 +375,11 @@ def set_rules(world):
     world.get_location("Orange Shrine Completed").access_rule = \
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state)
 
+    world.create_event(SACRED_HOLM, "Lake Capybara Reunited", "Sister Capybara Helped")
+    world.get_location("Sister Capybara Helped").access_rule = \
+        lambda state: can_burn(world, state) and can_hm01(world, state)
     world.create_event(HIDDEN_LOTUS, "Lake Capybara Reunited", "Brother Capybara Helped")
     world.get_location("Brother Capybara Helped").access_rule = \
-        lambda state: state.can_reach_location("Sacred Orb Found", world.player)
-    world.create_event(HIDDEN_LOTUS, "Lake Capybara Reunited", "Sister Capybara Helped")
-    world.get_location("Sister Capybara Helped").access_rule = \
         lambda state: state.can_reach_location("Chungy Saved", world.player)
 
     world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Truth Returned")
