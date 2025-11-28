@@ -184,7 +184,7 @@ def get_standard_rules(world):
                 lambda state: can_go_water(world, state) and is_shroom_nerd(world, state),
 
             "Clavaria Augmenter":
-                lambda state: can_go_water(world, state),
+                lambda state: can_go_water(world, state) and can_mine(world, state),
 
             "Ink Augmenter":
                 lambda state: can_hm01(world, state),
@@ -215,10 +215,10 @@ def get_standard_rules(world):
                 lambda state: can_fly(world, state) and has_climb_level(world, state, 2)
                               and can_screw_glass(world, state),
 
-            "Sacred Streamer 1 Obtained":
+            "Sacred Streamer 1 Obtained (Rico)":
                 lambda state: has_climb_level(world, state, 2) and can_mine(world, state),
 
-            "Sacred Streamer 2 Obtained":
+            "Sacred Streamer 2 Obtained (Web Area)":
                 lambda state: can_hm01(world, state) and can_glue(world, state),
 
             "Band Aid Found":
@@ -233,7 +233,7 @@ def get_standard_rules(world):
             "Ring of Spirit Found":
                 lambda state: can_burn(world, state) and can_go_water(world, state),
 
-            "Sacred Streamer 3 Obtained":
+            "Sacred Streamer 3 Obtained (Underwater)":
                 lambda state: state.has("Ring Returned", world.player, 1)
                               and can_fly(world, state) and can_burn(world, state) and can_go_water(world, state)
                               and has_climb_level(world, state, 2),
@@ -302,9 +302,9 @@ def get_standard_rules(world):
                 lambda state: is_shroom_nerd(world, state),
 
             "Heart of the Forest":
-                lambda state: is_shroom_nerd(world, state),
+                lambda state: is_shroom_nerd(world, state) and state.has("Sacred Streamer", world.player, 4),
 
-            "Sacred Streamer 4 Obtained":
+            "Sacred Streamer 4 Obtained (Rings)":
                 lambda state: state.has("Ring Returned", world.player, 3),
 
             "Rainbow Augmenter":
@@ -319,7 +319,6 @@ def get_standard_rules(world):
 
             "Sacred Augmenter":
                 lambda state: state.has("Sacred Streamer", world.player, 4),
-
 
         },
         "entrances": {

@@ -93,11 +93,10 @@ progress_locations = {
     "Ring of Love Found":           LocData(0x505, GROVE),
     "Ring of Prosperity Found":     LocData(0x506, FIREFLIES),
     "Ring of Spirit Found":         LocData(0x507, BRILLIANT_BEACH),
-    "Sacred Streamer 1 Obtained":   LocData(0x508, GROVE),
-    "Sacred Streamer 2 Obtained":   LocData(0x509, TRANQUIL_GARDEN),
-    "Sacred Streamer 3 Obtained":   LocData(0x50A, BRILLIANT_BEACH),
-    "Sacred Streamer 4 Obtained":   LocData(0x50B, BRILLIANT_BEACH),
-
+    "Sacred Streamer 1 Obtained (Rico)":   LocData(0x508, GROVE),
+    "Sacred Streamer 2 Obtained (Web Area)":   LocData(0x509, TRANQUIL_GARDEN),
+    "Sacred Streamer 3 Obtained (Underwater)":   LocData(0x50A, BRILLIANT_BEACH),
+    "Sacred Streamer 4 Obtained (Rings)":   LocData(0x50B, BRILLIANT_BEACH),
 }
 
 mycology_locations = {
