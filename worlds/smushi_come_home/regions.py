@@ -54,6 +54,7 @@ def create_regions(world: SmushiWorld):
     create_region(world, DIVERS_LOCUS)
     create_region(world, INDIGO_ISLAND)
     create_region(world, SACRED_HOLM)
+    create_region(world, SACRED_HOLM_INNER)
 
     #Grove of Life
     create_region(world, GROVE)
@@ -88,6 +89,7 @@ def connect_all_regions(world: SmushiWorld):
     connect_regions(world, LAKE, DIVERS_LOCUS, f"{LAKE} -> {DIVERS_LOCUS}")
     connect_regions(world, LAKE, INDIGO_ISLAND, f"{LAKE} -> {INDIGO_ISLAND}")
     connect_regions(world, LAKE, SACRED_HOLM, f"{LAKE} -> {SACRED_HOLM}")
+    connect_regions(world, SACRED_HOLM, SACRED_HOLM_INNER, f"{SACRED_HOLM} -> {SACRED_HOLM_INNER}")
     connect_regions(world, LAKE, SMUSHI_HOME, f"{LAKE} -> {SMUSHI_HOME}")
     connect_regions(world, LAKE, ELDERS_HOME, f"{LAKE} -> {ELDERS_HOME}")
     connect_regions(world, ELDERS_HOME, GROVE, f"{ELDERS_HOME} -> {GROVE}")

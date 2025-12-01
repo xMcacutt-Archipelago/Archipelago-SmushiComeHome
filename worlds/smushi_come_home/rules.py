@@ -7,7 +7,6 @@ if TYPE_CHECKING:
 from BaseClasses import CollectionState
 from worlds.smushi_come_home.data import *
 
-
 def can_mine(world, state: CollectionState):
     return state.has("Tool of Mining", world.player)
 
@@ -63,7 +62,7 @@ def has_a_secret(world, state: CollectionState):
     return state.has("Secret Opener", world.player)
 
 def can_save_chungus(world, state: CollectionState):
-    return state.has("Old String", world.player)
+    return state.has("Old String", world.player) and state.has("Progressive Hooks", world.player, 1)
 
 def can_glue(world, state: CollectionState):
     return state.has("Band Aid", world.player)
@@ -94,7 +93,7 @@ def get_standard_rules(world):
                 lambda state: can_mine(world, state),
 
             "Tool of Mining Found":
-                lambda state: has_tools(world, state),
+                lambda state: has_tools(world, state) or (has_climb_level(world, state, 2) and can_mine(world, state)),
 
             "Purple Augmenter":
                 lambda state: state.can_reach_location("Orange Shrine Completed", world.player),
@@ -114,6 +113,9 @@ def get_standard_rules(world):
             "Blade of Power Purchase":
                 lambda state: can_mine(world, state),
 
+            "Ancient Relics Returned":
+                lambda state: is_rich(world, state),
+
             "Anemone Woods Wind Essence":
                 lambda state: can_fly(world, state),
 
@@ -127,7 +129,7 @@ def get_standard_rules(world):
                 lambda state: can_fly(world, state),
 
             "Ancient Relic 1 Found":
-                lambda state: has_tools(world, state),
+                lambda state: has_tools(world, state) or (has_climb_level(world, state, 2) and can_mine(world, state)),
 
             "Ancient Relic 2 Found":
                 lambda state: has_tools(world, state),
@@ -202,11 +204,11 @@ def get_standard_rules(world):
                 lambda state: can_mine(world, state),
 
             "Secret Opener Found":
-                lambda state: can_fly(world, state) and can_burn(world, state)
-                              and has_climb_level(world, state, 2),
+                lambda state: is_pitch_black_baby(world, state) and can_fly(world, state) and can_burn(world, state)
+                              and has_climb_level(world, state, 2) and can_hm01(world, state),
 
             "Screwdriver Purchase":
-                lambda state: can_mine(world, state) and has_climb_level(world, state, 1),
+                lambda state: can_mine(world, state) and has_climb_level(world, state, 1) and can_fly(world, state),
 
             "Ring of Truth Found":
                 lambda state: can_fly(world, state) and can_hm01(world, state) and has_climb_level(world, state, 1) and can_fly(world, state),
@@ -308,10 +310,10 @@ def get_standard_rules(world):
                 lambda state: state.has("Ring Returned", world.player, 3),
 
             "Rainbow Augmenter":
-                lambda state: can_fly(world, state) and has_climb_level(world, state, 2),
+                lambda state: can_fly(world, state) and has_climb_level(world, state, 2) and can_hm01(world, state),
 
             "Sharp Augmenter":
-                lambda state: can_fly(world, state) and has_climb_level(world, state, 2)
+                lambda state: is_pitch_black_baby(world, state) and can_fly(world, state) and has_climb_level(world, state, 2)
                               and can_burn(world, state) and can_screw_glass(world, state),
 
             "Precious Augmenter":
@@ -320,6 +322,8 @@ def get_standard_rules(world):
             "Sacred Augmenter":
                 lambda state: state.has("Sacred Streamer", world.player, 4),
 
+            "Super Spore Received":
+                lambda state: has_tools(world, state) or (has_climb_level(world, state, 2) and can_mine(world, state)),
         },
         "entrances": {
             f"{GARDEN} -> {CRYSTAL_CAVES}":
@@ -341,8 +345,8 @@ def get_standard_rules(world):
             f"{HIDDEN_LOTUS} -> {CHUNGY_CAVE}":
                 lambda state: can_go_water(world, state) and can_fly(world, state) and is_pitch_black_baby(world, state)
                               and has_climb_level(world, state, 2),
-            f"{LAKE} -> {SACRED_HOLM}":
-                lambda state: has_climb_level(world, state, 2) and can_fly(world, state) and can_mine(world, state),
+            f"{SACRED_HOLM} -> {SACRED_HOLM_INNER}":
+                lambda state: has_climb_level(world, state, 1) and can_fly(world, state) and can_mine(world, state),
             f"{ELDERS_HOME} -> {GROVE}":
                 lambda state: can_go_water(world, state) and can_fly(world, state) and can_screw_glass(world, state)
                               and has_climb_level(world, state, 2),
@@ -375,7 +379,7 @@ def set_rules(world):
     world.get_location("Orange Shrine Completed").access_rule = \
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state)
 
-    world.create_event(SACRED_HOLM, "Lake Capybara Reunited", "Sister Capybara Helped")
+    world.create_event(SACRED_HOLM_INNER, "Lake Capybara Reunited", "Sister Capybara Helped")
     world.get_location("Sister Capybara Helped").access_rule = \
         lambda state: can_burn(world, state) and can_hm01(world, state)
     world.create_event(HIDDEN_LOTUS, "Lake Capybara Reunited", "Brother Capybara Helped")
@@ -387,11 +391,11 @@ def set_rules(world):
     world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Youth Returned")
     world.get_location("Ring of Youth Returned").access_rule = lambda state: state.has("Ring of Youth", world.player)
     world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Love Returned")
-    world.get_location("Ring of Youth Returned").access_rule = lambda state: state.has("Ring of Love", world.player)
+    world.get_location("Ring of Love Returned").access_rule = lambda state: state.has("Ring of Love", world.player)
     world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Prosperity Returned")
-    world.get_location("Ring of Youth Returned").access_rule = lambda state: state.has("Ring of Prosperity", world.player)
+    world.get_location("Ring of Prosperity Returned").access_rule = lambda state: state.has("Ring of Prosperity", world.player)
     world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Spirit Returned")
-    world.get_location("Ring of Youth Returned").access_rule = lambda state: state.has("Ring of Spirit", world.player)
+    world.get_location("Ring of Spirit Returned").access_rule = lambda state: state.has("Ring of Spirit", world.player)
 
     for entrance_name, rule in rules_lookup["entrances"].items():
         try:
