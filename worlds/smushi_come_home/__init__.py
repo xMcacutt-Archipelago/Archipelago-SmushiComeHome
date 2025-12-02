@@ -49,7 +49,8 @@ class SmushiWorld(World):
                           show_entrance_names=True, regions_to_highlight=state.reachable_regions[self.player])
         return {
             "ModVersion": "1.0.0",
-            "Goal": self.options.goal.value
+            "Goal": self.options.goal.value,
+            "LogicDifficulty": self.options.logic_difficulty.value
         }
 
     def generate_early(self) -> None:

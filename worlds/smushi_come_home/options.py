@@ -17,29 +17,29 @@ class Goal(Choice):
     default = 0
 
 
-# class LogicDifficulty(Choice):
-#     """
-#     Standard: (RECOMMENDED) Basic logic, no sequence breaks needed
-#
-#     Advanced: Uses out of bounds glitches
-#     """
-#     display_name = "Logic Difficulty"
-#     option_standard = 0
-#     option_advanced = 1
-#     default = 0
+class LogicDifficulty(Choice):
+    """
+    Standard: (RECOMMENDED) Basic logic, no sequence breaks needed
+
+    Advanced: Uses out of bounds glitches
+    """
+    display_name = "Logic Difficulty"
+    option_standard = 0
+    option_advanced = 1
+    default = 0
 
 
 smushi_option_groups = [
     OptionGroup("Goal Options", [
         Goal,
     ]),
-    # OptionGroup("Logic Options", [
-    #     LogicDifficulty
-    # ]),
+    OptionGroup("Logic Options", [
+        LogicDifficulty
+    ]),
 ]
 
 
 @dataclass
 class SmushiOptions(PerGameCommonOptions):
     goal: Goal
-    # logic_difficulty: LogicDifficulty
+    logic_difficulty: LogicDifficulty
