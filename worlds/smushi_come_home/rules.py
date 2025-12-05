@@ -85,13 +85,11 @@ def get_advanced_rules(world):
 
       "Tool of Mining Found":
         lambda state: (can_fly(world, state) and has_climb_level(world, state, 1))
-                      or (((can_fly(world, state) or has_climb_level(world, state, 1))
-                           or has_climb_level(world, state, 2)) and can_mine(world, state)),
+                      or ((can_fly(world, state) or has_climb_level(world, state, 1)) and can_mine(world, state)),
 
       "Super Spore Received":
         lambda state: (can_fly(world, state) and has_climb_level(world, state, 1))
-                      or (((can_fly(world, state) or has_climb_level(world, state, 1))
-                           or has_climb_level(world, state, 2)) and can_mine(world, state)),
+                      or ((can_fly(world, state) or has_climb_level(world, state, 1)) and can_mine(world, state)),
 
       "Pink Shrine Energy Spore":
         lambda state: (has_climb_level(world, state, 1) or can_fly(world, state)) and can_hm01(world, state),
@@ -109,19 +107,20 @@ def get_advanced_rules(world):
         lambda state: is_literate(world, state),
 
       "Myrtle Pools Wind Essence":
-        lambda state: can_fly(world, state),
+        lambda state: can_fly(world, state) or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player)),
 
       "Myrtle Pools Blueberry Purchase":
         lambda state: can_mine(world, state),
 
-      "Ancient Relic 1 Found":
+      "Ancient Relic 2 Found":
         lambda state: (can_fly(world, state) and has_climb_level(world, state, 1))
                       or (can_mine(world, state) and can_fly(world, state))
                       or (can_mine(world, state) and has_climb_level(world, state, 1))
                       or (has_climb_level(world, state, 2)),
 
-      "Ancient Relic 2 Found":
-        lambda state: can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state)),
+      "Ancient Relic 1 Found":
+        lambda state: (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state)))
+                or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player)),
 
       "Crystal Cave Blueberry Found":
         lambda state: can_fly(world, state),
@@ -146,8 +145,9 @@ def get_advanced_rules(world):
         lambda state: can_fly(world, state) and has_climb_level(world, state, 1),
 
       "Brick Chimney Wind Essence":
-        lambda state: has_climb_level(world, state, 2) and (can_fly(world, state)
-                                                            or state.has("Spore of Energy", world.player, 2)),
+        lambda state: has_climb_level(world, state, 2)
+                      and ((can_fly(world, state) and state.has("Wind Essence", world.player, 2)) or can_hm01(world, state))
+                      and (can_fly(world, state) or state.has("Energy Spore", world.player, 2)),
 
       "Restless Stream Energy Spore":
         lambda state: can_hm01(world, state) and (can_fly(world, state)
@@ -184,7 +184,7 @@ def get_advanced_rules(world):
                       and can_burn(world, state) and can_hm01(world, state),
 
       "Screwdriver Purchase":
-        lambda state: can_mine(world, state) and can_fly(world, state),
+        lambda state: can_mine(world, state) and can_fly(world, state) or (has_climb_level(world, state, 2) and state.has("Super Spore", world.player)),
 
       "Band Aid Found":
         lambda state: has_climb_level(world, state, 2) and can_hm01(world, state),
@@ -224,7 +224,7 @@ def get_advanced_rules(world):
         lambda state: is_shroom_nerd(world, state),
 
       "Macrolepiota Procera":
-        lambda state: is_shroom_nerd(world, state) and can_fly(world, state),
+        lambda state: is_shroom_nerd(world, state) and (can_fly(world, state) or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player))),
 
       "Entoloma Hochstetteri":
         lambda state: is_shroom_nerd(world, state),
@@ -329,11 +329,9 @@ def get_advanced_rules(world):
         lambda state: (can_fly(world, state) and (has_climb_level(world, state, 1))
                       or (state.has("Super Essence", world.player) and state.has("Essence of Wind", world.player, 3))),
       f"{ANCIENT_PASSAGE} -> {FOREST}":
-        lambda state: is_thicc(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_hm01)),
+        lambda state: is_thicc(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_hm01(world, state))),
       f"{WAXCAP_FALLS} -> {MAPLE_SANCTUARY}":
         lambda state: has_climb_level(world, state, 2) or (has_climb_level(world, state, 1) and can_fly(world, state)),
-      f"{RESTLESS_STREAM} -> {CRYPTIC_CAVERNS}":
-        lambda state: can_fly(world, state) or has_climb_level(world, state, 1),
       f"{CRYPTIC_CAVERNS} -> {DARK_CAVE}":
         lambda state: is_pitch_black_baby(world, state) and can_fly(world, state) and has_climb_level(world, state, 1),
       f"{WAXCAP_FALLS} -> {WAXCAP_FALLS_WATER_CAVE}":
@@ -341,8 +339,7 @@ def get_advanced_rules(world):
                       or can_go_water(world, state),
       f"{RESTLESS_STREAM} -> {LAKE}":
         lambda state: can_boom(world, state) or
-                      (can_fly(world, state) and
-                       (has_climb_level(world, state, 1)
+                      (can_fly(world, state) and (has_climb_level(world, state, 1)
                         or can_hm01(world, state)
                         or is_pitch_black_baby(world, state))),
       f"{LAKE} -> {ELDERS_HOME}":
@@ -371,6 +368,11 @@ def get_standard_rules(world):
         lambda state: can_mine(world, state),
 
       "Tool of Mining Found":
+        lambda state: can_mine(world, state) and
+                      ((can_fly(world, state) and has_climb_level(world, state, 1))
+                      or has_climb_level(world, state, 2)),
+
+      "Super Spore Received":
         lambda state: can_mine(world, state) and
                       ((can_fly(world, state) and has_climb_level(world, state, 1))
                       or has_climb_level(world, state, 2)),
@@ -605,10 +607,6 @@ def get_standard_rules(world):
       "Sacred Augmenter":
         lambda state: state.has("Sacred Streamer", world.player, 4),
 
-      "Super Spore Received":
-        lambda state: can_mine(world, state)
-                      and ((can_fly(world, state) and has_climb_level(world, state, 1))
-                      or has_climb_level(world, state, 2)),
     },
     "entrances": {
       f"{GARDEN} -> {CRYSTAL_CAVES}":

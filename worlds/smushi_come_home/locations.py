@@ -142,7 +142,7 @@ augmenter_locations = {
     "Ink Augmenter":           LocData(0x709, CHUNGY_CAVE),
     "Sharp Augmenter":         LocData(0x70A, ELDERS_HOME),
     "Precious Augmenter":      LocData(0x70B, BRILLIANT_BEACH),
-    "Rainbow Augmenter":       LocData(0x70C, BRILLIANT_BEACH),
+    "Rainbow Augmenter":       LocData(0x70C, FIREFLIES),
     "Veiled Augmenter":        LocData(0x70D, TRANQUIL_GARDEN),
     "Sacred Augmenter":        LocData(0x70E, SACRED_TREE),
 }
