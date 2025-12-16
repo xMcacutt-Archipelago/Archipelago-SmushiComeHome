@@ -119,8 +119,9 @@ def get_advanced_rules(world):
                       or (has_climb_level(world, state, 2)),
 
       "Ancient Relic 1 Found":
-        lambda state: (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state)))
-                or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player)),
+        lambda state: (can_fly(world, state) and has_climb_level(world, state, 1) and can_mine(world, state))
+                or (has_climb_level(world, state, 2) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player))
+                or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state))),
 
       "Crystal Cave Blueberry Found":
         lambda state: can_fly(world, state),
@@ -129,8 +130,8 @@ def get_advanced_rules(world):
         lambda state: can_mine(world, state),
 
       "Explosive Powder 1 Found":
-        lambda state: can_fly(world, state) or has_climb_level(world, state, 1)
-                      or can_hm01(world, state) or is_member(world, state),
+        lambda state: ((can_fly(world, state) or has_climb_level(world, state, 1) or can_hm01(world, state))
+                       and can_hail_magic_conch(world, state)) or is_member(world, state),
 
       "Super Essence Found":
         lambda state: can_fly(world, state),
@@ -195,7 +196,7 @@ def get_advanced_rules(world):
                           and state.has("Ring Returned", world.player, 1)),
 
       "Ring of Youth Found":
-        lambda state: can_hm01(world, state),
+        lambda state: can_hm01(world, state) or (can_glue(world, state) and can_hail_magic_conch(world, state)),
 
       "Ring of Love Found":
         lambda state: can_fly(world, state) and has_climb_level(world, state, 1)
@@ -207,6 +208,9 @@ def get_advanced_rules(world):
 
       "Sacred Streamer 1 Obtained (Rico)":
         lambda state: (has_climb_level(world, state, 1) or (can_fly(world, state) and state.has("Ring Returned", world.player, 1))) and can_mine(world, state),
+
+      "Sacred Streamer 2 Obtained (Web Area)":
+        lambda state: can_hm01(world, state),
 
       "Sacred Streamer 3 Obtained (Underwater)":
         lambda state: can_burn(world, state) and can_go_water(world, state),
@@ -326,7 +330,7 @@ def get_advanced_rules(world):
     },
     "entrances": {
       f"{GARDEN} -> {CRYSTAL_CAVES}":
-        lambda state: (can_fly(world, state) and (has_climb_level(world, state, 1))
+        lambda state: can_hm01(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1))
                       or (state.has("Super Essence", world.player) and state.has("Essence of Wind", world.player, 3))),
       f"{ANCIENT_PASSAGE} -> {FOREST}":
         lambda state: is_thicc(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_hm01(world, state))),
@@ -349,7 +353,8 @@ def get_advanced_rules(world):
       f"{SACRED_HOLM} -> {SACRED_HOLM_INNER}":
         lambda state: has_climb_level(world, state, 1) and can_fly(world, state),
       f"{ELDERS_HOME} -> {GROVE}":
-        lambda state: can_fly(world, state) and can_screw_glass(world, state),
+        lambda state: (has_climb_level(world, state, 2) and can_fly(world, state) and can_go_water(world, state))
+                      or (can_fly(world, state) and can_screw_glass(world, state)),
       f"{GROVE} -> {TRANQUIL_GARDEN}":
         lambda state: can_burn(world, state),
       f"{BRILLIANT_BEACH} -> {FIREFLIES}":
@@ -411,9 +416,7 @@ def get_standard_rules(world):
         lambda state: can_fly(world, state),
 
       "Ancient Relic 1 Found":
-        lambda state: can_mine(world, state)
-                      and ((can_fly(world, state) and has_climb_level(world, state, 1))
-                           or has_climb_level(world, state, 2)),
+        lambda state: can_fly(world, state) and can_mine(world, state) and has_climb_level(world, state, 1),
 
       "Ancient Relic 2 Found":
         lambda state: can_fly(world, state) and can_mine(world, state) and has_climb_level(world, state, 1),
@@ -630,8 +633,8 @@ def get_standard_rules(world):
       f"{SACRED_HOLM} -> {SACRED_HOLM_INNER}":
         lambda state: has_climb_level(world, state, 1) and can_fly(world, state) and can_mine(world, state),
       f"{ELDERS_HOME} -> {GROVE}":
-        lambda state: can_go_water(world, state) and can_fly(world, state) and can_screw_glass(world, state)
-                      and has_climb_level(world, state, 2),
+        lambda state: can_go_water(world, state) and can_fly(world, state)
+                      and can_screw_glass(world, state) and has_climb_level(world, state, 2),
       f"{GROVE} -> {TRANQUIL_GARDEN}":
         lambda state: can_burn(world, state),
       f"{BRILLIANT_BEACH} -> {FIREFLIES}":

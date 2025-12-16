@@ -48,7 +48,7 @@ class SmushiWorld(World):
         visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml",
                           show_entrance_names=True, regions_to_highlight=state.reachable_regions[self.player])
         return {
-            "ModVersion": "1.0.0",
+            "ModVersion": "1.0.6",
             "Goal": self.options.goal.value,
             "LogicDifficulty": self.options.logic_difficulty.value
         }
