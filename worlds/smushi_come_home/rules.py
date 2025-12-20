@@ -333,7 +333,8 @@ def get_advanced_rules(world):
         lambda state: can_hm01(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1))
                       or (state.has("Super Essence", world.player) and state.has("Essence of Wind", world.player, 3))),
       f"{ANCIENT_PASSAGE} -> {FOREST}":
-        lambda state: is_thicc(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_hm01(world, state))),
+        lambda state: is_thicc(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_hm01(world, state)
+                                                                            or (state.has("Super Essence", world.player) and state.has("Essence of Wind", world.player, 3)))),
       f"{WAXCAP_FALLS} -> {MAPLE_SANCTUARY}":
         lambda state: has_climb_level(world, state, 2) or (has_climb_level(world, state, 1) and can_fly(world, state)),
       f"{CRYPTIC_CAVERNS} -> {DARK_CAVE}":
@@ -419,7 +420,7 @@ def get_standard_rules(world):
         lambda state: can_fly(world, state) and can_mine(world, state) and has_climb_level(world, state, 1),
 
       "Ancient Relic 2 Found":
-        lambda state: can_fly(world, state) and can_mine(world, state) and has_climb_level(world, state, 1),
+        lambda state: can_mine(world, state) and has_climb_level(world, state, 1),
 
       "Myrtle Pools Blueberry Purchase":
         lambda state: can_mine(world, state),

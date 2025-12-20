@@ -1,5 +1,6 @@
 import typing
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region, Location
+from Utils import visualize_regions
 from worlds.AutoWorld import WebWorld, World
 from .items import SmushiItem, smushi_item_table, create_items, ItemData
 from .locations import smushi_location_table, SmushiLocation
@@ -45,10 +46,8 @@ class SmushiWorld(World):
         from Utils import visualize_regions
         state = self.multiworld.get_all_state(False)
         state.update_reachable_regions(self.player)
-        visualize_regions(self.get_region("Menu"), f"{self.player_name}_world.puml",
-                          show_entrance_names=True, regions_to_highlight=state.reachable_regions[self.player])
         return {
-            "ModVersion": "1.0.6",
+            "ModVersion": "1.0.7",
             "Goal": self.options.goal.value,
             "LogicDifficulty": self.options.logic_difficulty.value
         }
@@ -88,3 +87,9 @@ class SmushiWorld(World):
             # new_hint_data[location.address] = f""
 
         hint_data[self.player] = new_hint_data
+
+    def generate_output(self, output_dir):
+        visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}.puml",
+                          show_entrance_names=True,
+                          regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+                              self.player])
