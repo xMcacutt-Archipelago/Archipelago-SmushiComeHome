@@ -95,7 +95,7 @@ def get_advanced_rules(world):
         lambda state: (has_climb_level(world, state, 1) or can_fly(world, state)) and can_hm01(world, state),
 
       "Blue Shrine Energy Spore":
-        lambda state: has_climb_level(world, state, 1) or can_fly(world, state),
+        lambda state: (has_climb_level(world, state, 1) or can_fly(world, state)) or state.has("Energy Spore", world.player, 2),
 
       "Blade of Power Purchase":
         lambda state: can_mine(world, state),
@@ -124,7 +124,7 @@ def get_advanced_rules(world):
                 or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state))),
 
       "Crystal Cave Blueberry Found":
-        lambda state: can_fly(world, state),
+        lambda state: can_fly(world, state) and has_climb_level(world, state, 1),
 
       "Sturdy Hooks Purchase":
         lambda state: can_mine(world, state),
@@ -298,10 +298,6 @@ def get_advanced_rules(world):
       "Flower Augmenter":
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state),
 
-      "Secret Augmenter":
-        lambda state: has_a_secret(world, state) or (can_fly(world, state)
-                                                     and has_climb_level(world, state, 1)),
-
       "Pelagic Augmenter":
         lambda state: can_hm01(world,state) and can_burn(world, state),
 
@@ -453,7 +449,7 @@ def get_standard_rules(world):
         lambda state: can_hm01(world, state) and has_climb_level(world, state, 1),
 
       "Container of Light Found":
-        lambda state: has_climb_level(world, state, 2) and can_fly(world, state),
+        lambda state: has_climb_level(world, state, 1) and can_fly(world, state),
 
       "Headlamp Acquired":
         lambda state: can_has_lamp(world, state),
@@ -477,7 +473,7 @@ def get_standard_rules(world):
         lambda state: can_go_water(world, state) and can_mine(world, state),
 
       "Ink Augmenter":
-        lambda state: has_climb_level(world, state, 1)
+        lambda state: has_climb_level(world, state, 2)
                       and can_fly(world, state) and can_hm01(world, state),
 
       "Old String Found":
@@ -651,8 +647,7 @@ def get_standard_rules(world):
 def set_rules(world):
   from . import SmushiWorld
   world: SmushiWorld
-  rules_lookup = get_standard_rules(world)
-  # if world.options.logic_difficulty.value == 0 else get_advanced_rules(world)
+  rules_lookup = get_standard_rules(world) if world.options.logic_difficulty.value == 0 else get_advanced_rules(world)
 
   world.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Yellow Shrine Completed")
   world.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Blue Shrine Completed")

@@ -88,8 +88,8 @@ class SmushiWorld(World):
 
         hint_data[self.player] = new_hint_data
 
-    def generate_output(self, output_dir):
-        visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}.puml",
-                          show_entrance_names=True,
-                          regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
-                              self.player])
+    # def generate_output(self, output_dir):
+    #     visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}.puml",
+    #                       show_entrance_names=True,
+    #                       regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+    #                           self.player])
