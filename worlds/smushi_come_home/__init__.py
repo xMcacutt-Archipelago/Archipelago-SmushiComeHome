@@ -7,6 +7,7 @@ from .locations import smushi_location_table, SmushiLocation
 from .options import SmushiOptions, smushi_option_groups
 from .regions import create_regions, connect_regions, connect_all_regions
 from .rules import set_rules
+from .data import *
 
 class SmushiWeb(WebWorld):
     theme = "grass"
@@ -62,6 +63,23 @@ class SmushiWorld(World):
     def create_items(self):
         create_items(self)
 
+    def create_events(self):
+        self.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Yellow Shrine Completed")
+        self.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Blue Shrine Completed")
+        self.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Pink Shrine Completed")
+        self.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Orange Shrine Completed")
+        self.create_event(SACRED_HOLM_INNER, "Lake Capybara Reunited", "Sister Capybara Helped")
+        self.create_event(HIDDEN_LOTUS, "Lake Capybara Reunited", "Brother Capybara Helped")
+        self.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Truth Returned")
+        self.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Youth Returned")
+        self.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Love Returned")
+        self.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Prosperity Returned")
+        self.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Spirit Returned")
+        if self.options.goal.value == 0:
+            self.create_event(SMUSHI_HOME, "Victory", "Victory")
+        if self.options.goal.value == 1:
+            self.create_event(SACRED_TREE, "Victory", "Victory")
+
     def create_event(self, region_name: str, event_name: str, event_loc_name: str) -> None:
         region: Region = self.multiworld.get_region(region_name, self.player)
         loc: SmushiLocation = SmushiLocation(self.player, event_loc_name, None, region)
@@ -71,6 +89,7 @@ class SmushiWorld(World):
     def create_regions(self):
         create_regions(self)
         connect_all_regions(self)
+        self.create_events()
 
     def set_rules(self):
         set_rules(self)

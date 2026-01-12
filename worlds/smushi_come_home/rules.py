@@ -107,7 +107,10 @@ def get_advanced_rules(world):
         lambda state: is_literate(world, state),
 
       "Myrtle Pools Wind Essence":
-        lambda state: can_fly(world, state) or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player)),
+        lambda state: is_shroom_nerd(world, state)
+                      and (can_fly(world, state)
+                           or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player))
+                           or (has_climb_level(world, state, 2) and state.has("Energy Spore", world.player, 2))),
 
       "Myrtle Pools Blueberry Purchase":
         lambda state: can_mine(world, state),
@@ -123,6 +126,9 @@ def get_advanced_rules(world):
                 or (has_climb_level(world, state, 2) and state.has("Spore of Energy", world.player, 2) and state.has("Super Spore", world.player))
                 or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state)))
                 or (state.has("Spore of Energy", world.player, 2) and state.has("Super Spore", world.player) and has_climb_level(world, state, 1) and can_mine(world, state)),
+
+      "Ancient Relics Returned":
+        lambda state: is_rich(world, state),
 
       "Crystal Cave Blueberry Found":
         lambda state: can_fly(world, state) and has_climb_level(world, state, 1),
@@ -182,7 +188,7 @@ def get_advanced_rules(world):
         lambda state: can_mine(world, state),
 
       "Secret Opener Found":
-        lambda state: can_fly(world, state) and has_climb_level(world, state, 1)
+        lambda state: can_fly(world, state) and has_climb_level(world, state, 2)
                       and can_burn(world, state) and can_hm01(world, state),
 
       "Screwdriver Purchase":
@@ -229,7 +235,10 @@ def get_advanced_rules(world):
         lambda state: is_shroom_nerd(world, state),
 
       "Macrolepiota Procera":
-        lambda state: is_shroom_nerd(world, state) and (can_fly(world, state) or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player))),
+        lambda state: is_shroom_nerd(world, state)
+                      and (can_fly(world, state)
+                           or (has_climb_level(world, state, 1) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player))
+                           or (has_climb_level(world, state, 2) and state.has("Energy Spore", world.player, 2))),
 
       "Entoloma Hochstetteri":
         lambda state: is_shroom_nerd(world, state),
@@ -293,8 +302,7 @@ def get_advanced_rules(world):
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state),
 
       "Strawberry Augmenter":
-        lambda state: (can_fly(world, state) or (state.has("Spore of Energy", world.player, 2))
-                       and is_stretchy(world, state)),
+        lambda state: is_stretchy and (can_fly(world, state) or state.has("Spore of Energy", world.player, 2)),
 
       "Flower Augmenter":
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state),
@@ -349,7 +357,7 @@ def get_advanced_rules(world):
       f"{HIDDEN_LOTUS} -> {CHUNGY_CAVE}":
         lambda state: can_go_water(world, state) and is_pitch_black_baby(world, state),
       f"{SACRED_HOLM} -> {SACRED_HOLM_INNER}":
-        lambda state: has_climb_level(world, state, 1) and can_fly(world, state),
+        lambda state: can_fly(world, state) and ((has_climb_level(world, state, 1) and can_mine(world, state)) or has_climb_level(world, state, 2)),
       f"{ELDERS_HOME} -> {GROVE}":
         lambda state: (has_climb_level(world, state, 2) and can_fly(world, state) and can_go_water(world, state))
                       or (can_fly(world, state) and can_screw_glass(world, state)),
@@ -650,33 +658,22 @@ def set_rules(world):
   world: SmushiWorld
   rules_lookup = get_standard_rules(world) if world.options.logic_difficulty.value == 0 else get_advanced_rules(world)
 
-  world.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Yellow Shrine Completed")
-  world.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Blue Shrine Completed")
   world.get_location("Blue Shrine Completed").access_rule = \
     lambda state: has_climb_level(world, state, 1) or can_fly(world, state)
-  world.create_event(BOLETE_BEACH, "Flower Shrine Completed", "Pink Shrine Completed")
   world.get_location("Pink Shrine Completed").access_rule = \
     lambda state: has_climb_level(world, state, 1) and can_hm01(world, state)
-  world.create_event(MYCENA_ENTRY, "Flower Shrine Completed", "Orange Shrine Completed")
   world.get_location("Orange Shrine Completed").access_rule = \
     lambda state: has_climb_level(world, state, 1) and can_hm01(world, state)
 
-  world.create_event(SACRED_HOLM_INNER, "Lake Capybara Reunited", "Sister Capybara Helped")
   world.get_location("Sister Capybara Helped").access_rule = \
     lambda state: can_burn(world, state) and can_hm01(world, state)
-  world.create_event(HIDDEN_LOTUS, "Lake Capybara Reunited", "Brother Capybara Helped")
   world.get_location("Brother Capybara Helped").access_rule = \
     lambda state: state.can_reach_location("Chungy Saved", world.player)
 
-  world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Truth Returned")
   world.get_location("Ring of Truth Returned").access_rule = lambda state: state.has("Ring of Truth", world.player)
-  world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Youth Returned")
   world.get_location("Ring of Youth Returned").access_rule = lambda state: state.has("Ring of Youth", world.player)
-  world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Love Returned")
   world.get_location("Ring of Love Returned").access_rule = lambda state: state.has("Ring of Love", world.player)
-  world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Prosperity Returned")
   world.get_location("Ring of Prosperity Returned").access_rule = lambda state: state.has("Ring of Prosperity", world.player)
-  world.create_event(BRILLIANT_BEACH, "Ring Returned", "Ring of Spirit Returned")
   world.get_location("Ring of Spirit Returned").access_rule = lambda state: state.has("Ring of Spirit", world.player)
 
   for entrance_name, rule in rules_lookup["entrances"].items():
@@ -692,9 +689,6 @@ def set_rules(world):
       print(f"Invalid Location specified in rules dictionary: {location_name}")
       pass
 
-  if world.options.goal.value == 0:
-    world.create_event(SMUSHI_HOME, "Victory", "Victory")
   if world.options.goal.value == 1:
-    world.create_event(SACRED_TREE, "Victory", "Victory")
     world.get_location("Victory").access_rule = lambda state: state.has("Sacred Streamer", world.player, 4)
   world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)
