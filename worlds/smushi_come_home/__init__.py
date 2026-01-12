@@ -2,7 +2,7 @@ import typing
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region, Location
 from Utils import visualize_regions
 from worlds.AutoWorld import WebWorld, World
-from .items import SmushiItem, smushi_item_table, create_items, ItemData
+from .items import *
 from .locations import smushi_location_table, SmushiLocation
 from .options import SmushiOptions, smushi_option_groups
 from .regions import create_regions, connect_regions, connect_all_regions
@@ -59,6 +59,9 @@ class SmushiWorld(World):
     def create_item(self, name: str) -> Item:
         item_info = smushi_item_table[name]
         return SmushiItem(name, item_info.classification, item_info.code, self.player)
+
+    def get_filler_item_name(self) -> str:
+        return get_random_item_names(self.random, 1, junk_weights)[0]
 
     def create_items(self):
         create_items(self)
