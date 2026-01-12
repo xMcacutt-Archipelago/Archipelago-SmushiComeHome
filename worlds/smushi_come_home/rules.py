@@ -120,8 +120,9 @@ def get_advanced_rules(world):
 
       "Ancient Relic 1 Found":
         lambda state: (can_fly(world, state) and has_climb_level(world, state, 1) and can_mine(world, state))
-                or (has_climb_level(world, state, 2) and state.has("Energy Spore", world.player, 2) and state.has("Super Spore", world.player))
-                or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state))),
+                or (has_climb_level(world, state, 2) and state.has("Spore of Energy", world.player, 2) and state.has("Super Spore", world.player))
+                or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_mine(world, state)))
+                or (state.has("Spore of Energy", world.player, 2) and state.has("Super Spore", world.player) and has_climb_level(world, state, 1) and can_mine(world, state)),
 
       "Crystal Cave Blueberry Found":
         lambda state: can_fly(world, state) and has_climb_level(world, state, 1),
@@ -131,7 +132,7 @@ def get_advanced_rules(world):
 
       "Explosive Powder 1 Found":
         lambda state: ((can_fly(world, state) or has_climb_level(world, state, 1) or can_hm01(world, state))
-                       and can_hail_magic_conch(world, state)) or is_member(world, state),
+                       and can_hail_magic_conch(world, state)) or is_member(world, state) or (state.has("Spore of Energy", world.player, 2) and state.has("Super Spore", world.player)),
 
       "Super Essence Found":
         lambda state: can_fly(world, state),
@@ -143,7 +144,7 @@ def get_advanced_rules(world):
         lambda state: can_burn(world, state),
 
       "Cryptic Caverns Wind Essence":
-        lambda state: can_fly(world, state) and has_climb_level(world, state, 1),
+        lambda state: can_fly(world, state),
 
       "Brick Chimney Wind Essence":
         lambda state: has_climb_level(world, state, 2)
@@ -286,7 +287,7 @@ def get_advanced_rules(world):
         lambda state: is_shroom_nerd(world, state),
 
       "Heart of the Forest":
-        lambda state: is_shroom_nerd(world, state) and state.has("Sacred Streamer", world.player, 4),
+        lambda state: is_shroom_nerd(world, state) and has_climb_level(world, state, 1),
 
       "Purple Augmenter":
         lambda state: has_climb_level(world, state, 1) and can_hm01(world, state),
@@ -328,21 +329,21 @@ def get_advanced_rules(world):
       f"{GARDEN} -> {CRYSTAL_CAVES}":
         lambda state: can_hm01(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1))
                       or (state.has("Super Essence", world.player) and state.has("Essence of Wind", world.player, 3))),
-      f"{ANCIENT_PASSAGE} -> {FOREST}":
-        lambda state: is_thicc(world, state) or (can_fly(world, state) and (has_climb_level(world, state, 1) or can_hm01(world, state)
-                                                                            or (state.has("Super Essence", world.player) and state.has("Essence of Wind", world.player, 3)))),
       f"{WAXCAP_FALLS} -> {MAPLE_SANCTUARY}":
         lambda state: has_climb_level(world, state, 2) or (has_climb_level(world, state, 1) and can_fly(world, state)),
       f"{CRYPTIC_CAVERNS} -> {DARK_CAVE}":
-        lambda state: is_pitch_black_baby(world, state) and can_fly(world, state) and has_climb_level(world, state, 1),
+        lambda state: is_pitch_black_baby(world, state) and has_climb_level(world, state, 1)
+                      and (can_fly(world, state) or (state.has("Spore of Energy", world.player, 2) and state.has("Super Spore", world.player))),
       f"{WAXCAP_FALLS} -> {WAXCAP_FALLS_WATER_CAVE}":
         lambda state: can_fly(world, state) or has_climb_level(world, state, 1)
                       or can_go_water(world, state),
       f"{RESTLESS_STREAM} -> {LAKE}":
-        lambda state: can_boom(world, state) or
-                      (can_fly(world, state) and (has_climb_level(world, state, 1)
+        lambda state: can_boom(world, state)
+                        or (can_fly(world, state)
+                        or (has_climb_level(world, state, 1)
                         or can_hm01(world, state)
-                        or is_pitch_black_baby(world, state))),
+                        or is_pitch_black_baby(world, state)))
+                        or state.has("Super Spore", world.player) and state.has("Spore of Energy", world.player, 2),
       f"{LAKE} -> {ELDERS_HOME}":
         lambda state: is_uncle_iroh(world, state),
       f"{HIDDEN_LOTUS} -> {CHUNGY_CAVE}":
